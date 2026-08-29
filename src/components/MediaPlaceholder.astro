@@ -1,0 +1,8 @@
+---
+interface Props { tone?: string; label?: string; class?: string; }
+const { tone = 'mint', label = 'Project image placeholder', class: className = '' } = Astro.props;
+---
+<div class:list={['media-placeholder', `tone-${tone}`, className]} role="img" aria-label={label}>
+  <span>{label}</span>
+  <i></i><b></b>
+</div>

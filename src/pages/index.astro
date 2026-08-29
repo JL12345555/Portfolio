@@ -1,0 +1,40 @@
+---
+import Layout from '../layouts/Layout.astro';
+import ArchiveMedia from '../components/ArchiveMedia.astro';
+import SoundLoop from '../components/SoundLoop.astro';
+import { projects, archiveItems } from '../data/projects';
+const homepageProjects = [projects[1], projects[0], ...projects.slice(2)];
+---
+<Layout>
+  <section class="hero shell">
+    <p class="eyebrow">Play / Space / Image / System</p>
+    <div class="hero-stage"><h1>Interactive<br /><span>Media Designer</span></h1><SoundLoop /></div>
+    <div class="hero-bottom"><p>Interactive media designer creating games, immersive experiences, cinematic visuals, and digital interfaces by combining visual storytelling, 3D design, and real-time technology.</p><a href="#selected-work">Recent work <span>↓</span></a></div>
+  </section>
+
+  <section id="selected-work" class="project-sequence" aria-label="Recent work">
+    {homepageProjects.map((project, index) => (
+      <a class="project-panel" href={`/work/${project.slug}`} data-reveal>
+        <img class="project-hero-image" src={project.heroImage.src} alt={project.heroImage.alt} loading={index === 0 ? 'eager' : 'lazy'} decoding="async" style={project.heroImage.position ? `object-position:${project.heroImage.position}` : undefined} />
+        <div class="project-shade"></div>
+        <div class="project-meta"><span>0{index + 1} / 0{homepageProjects.length}</span><span>{project.kicker}</span><span>{project.year}</span></div>
+        <div class="project-copy"><h2>{project.title}</h2><div><p>{project.description}</p><span class="view-link">View project ↗</span></div></div>
+      </a>
+    ))}
+  </section>
+
+  <section class="archive-preview shell" data-reveal>
+    <div class="section-heading"><div><p class="eyebrow">Previous work</p><h2>Archive</h2></div><a href="/archive">View all work ↗</a></div>
+    <div class="archive-strip">
+      {archiveItems.slice(0, 3).map((item) => <a class="archive-teaser" href="/archive" aria-label={`View ${item.title} in the Archive`}><ArchiveMedia mediaType={item.mediaType} videoUrl={item.videoUrl} title={item.title} tone={item.tone} imageSrc={item.imageSrc} imageAlt={item.imageAlt} preview /><p><span>{item.title}</span><small>{item.category}</small></p></a>)}
+    </div>
+  </section>
+
+  <section class="profile-close shell" data-reveal>
+    <p class="eyebrow">Profile / 2026</p>
+    <p class="statement">I combine visual storytelling with real-time technology to create engaging, atmospheric, and intuitive digital experiences.</p>
+    <div><a href="/about">More about me ↗</a><a href="/resume">View résumé ↗</a></div>
+  </section>
+
+  <section class="contact-close shell" data-reveal><p class="eyebrow">Have a project or opportunity?</p><h2>Let’s make something<br /><span>interactive.</span></h2><a href="mailto:zedong.lin@outlook.com">zedong.lin@outlook.com ↗</a></section>
+</Layout>

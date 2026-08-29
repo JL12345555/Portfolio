@@ -1,0 +1,67 @@
+{"message":"connected.","label":"vite","level":"info"}
+{"message":"Generated 1ms","label":"types","level":"info"}
+{"message":"connected.","label":"vite","level":"info"}
+{"message":"Re-optimizing dependencies because vite config has changed","label":"vite","level":"info"}
+{"message":" astro  v7.2.2 ready in 1017 ms\n┃ Local    http://127.0.0.1:4321/","label":"SKIP_FORMAT","level":"info"}
+{"message":"watching for file changes...","label":null,"level":"info"}
+{"message":"[200] / 26ms","label":null,"level":"info"}
+{"message":"[200] /work/vr-game 4ms","label":null,"level":"info"}
+{"message":"[200] /archive 5ms","label":null,"level":"info"}
+{"message":"[200] /about 4ms","label":null,"level":"info"}
+{"message":"[200] /resume 4ms","label":null,"level":"info"}
+{"message":"[200] /contact 3ms","label":null,"level":"info"}
+{"message":"[200] / 3ms","label":null,"level":"info"}
+{"message":"[200] /work/two-player-2d-game 2ms","label":null,"level":"info"}
+{"message":"[200] /work/car-commercial 1ms","label":null,"level":"info"}
+{"message":"[200] /work/vr-game 1ms","label":null,"level":"info"}
+{"message":"[200] /work/virtual-exhibition 1ms","label":null,"level":"info"}
+{"message":"[200] /work/two-player-2d-game 1ms","label":null,"level":"info"}
+{"message":"[200] / 3ms","label":null,"level":"info"}
+{"message":"[200] /work/two-player-2d-game 2ms","label":null,"level":"info"}
+{"message":"[200] / 1ms","label":null,"level":"info"}
+{"message":"[200] /archive 1ms","label":null,"level":"info"}
+{"message":"[200] / 1ms","label":null,"level":"info"}
+{"message":"[200] /resume 1ms","label":null,"level":"info"}
+{"message":"[200] /about 1ms","label":null,"level":"info"}
+{"message":"[200] /contact 1ms","label":null,"level":"info"}
+{"message":"[200] / 1ms","label":null,"level":"info"}
+{"message":"[200] /resume 1ms","label":null,"level":"info"}
+{"message":"[200] /about 1ms","label":null,"level":"info"}
+{"message":"[200] /contact 1ms","label":null,"level":"info"}
+{"message":"[200] / 1ms","label":null,"level":"info"}
+{"message":"[200] /resume 1ms","label":null,"level":"info"}
+{"message":"[200] /about 1ms","label":null,"level":"info"}
+{"message":"[200] /contact 1ms","label":null,"level":"info"}
+{"message":"[200] / 1ms","label":null,"level":"info"}
+{"message":"[200] /contact 1ms","label":null,"level":"info"}
+{"message":"[200] / 1ms","label":null,"level":"info"}
+{"message":"[200] /contact 2ms","label":null,"level":"info"}
+{"message":"[200] / 1ms","label":null,"level":"info"}
+{"message":"[200] /contact 1ms","label":null,"level":"info"}
+{"message":"[200] /about 2ms","label":null,"level":"info"}
+{"message":"[200] /resume 1ms","label":null,"level":"info"}
+{"message":"[200] /about 1ms","label":null,"level":"info"}
+{"message":"[200] /contact 1ms","label":null,"level":"info"}
+{"message":"[200] /resume 1ms","label":null,"level":"info"}
+{"message":"[200] /about 1ms","label":null,"level":"info"}
+{"message":"[200] / 1ms","label":null,"level":"info"}
+{"message":"[200] /work/two-player-2d-game 1ms","label":null,"level":"info"}
+{"message":"[200] /about 1ms","label":null,"level":"info"}
+{"message":"[200] /resume 1ms","label":null,"level":"info"}
+{"message":"[200] / 1ms","label":null,"level":"info"}
+{"message":"[200] /work/two-player-2d-game 2ms","label":null,"level":"info"}
+{"message":"[200] /work/two-player-2d-game 5ms","label":null,"level":"info"}
+{"message":"[200] /work/two-player-2d-game 3ms","label":null,"level":"info"}
+{"message":"/src/styles/global.css","label":"watch","level":"info"}
+{"message":"[200] /about 7ms","label":null,"level":"info"}
+{"message":"[200] /about 1ms","label":null,"level":"info"}
+{"message":"[200] /about 1ms","label":null,"level":"info"}
+{"message":"[200] /resume 4ms","label":null,"level":"info"}
+{"message":"[200] /work/two-player-2d-game 4ms","label":null,"level":"info"}
+{"message":"[200] /work/two-player-2d-game 1ms","label":null,"level":"info"}
+{"message":"[200] / 5ms","label":null,"level":"info"}
+{"message":"[200] /work/two-player-2d-game 1ms","label":null,"level":"info"}
+{"message":"[200] /work/car-commercial 1ms","label":null,"level":"info"}
+{"message":"[200] /work/vr-game 1ms","label":null,"level":"info"}
+{"message":"/src/styles/global.css","label":"watch","level":"info"}
+{"message":"[200] /work/vr-game 6ms","label":null,"level":"info"}

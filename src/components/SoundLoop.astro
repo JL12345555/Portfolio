@@ -1,0 +1,102 @@
+<div class="sound-loop" aria-hidden="true">
+  <canvas data-sound-loop width="420" height="420"></canvas>
+</div>
+
+<script>
+  const canvas = document.querySelector<HTMLCanvasElement>('[data-sound-loop]');
+  const context = canvas?.getContext('2d');
+  const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+
+  if (canvas && context) {
+    let size = 420;
+    let phase = 0;
+    let energy = 0;
+    let targetEnergy = 0;
+    let lastX = 0;
+    let lastY = 0;
+    let lastTime = performance.now();
+    let hasPointer = false;
+    let frame = 0;
+
+    const resize = () => {
+      const bounds = canvas.getBoundingClientRect();
+      const dpr = Math.min(window.devicePixelRatio || 1, 2);
+      size = Math.max(1, bounds.width);
+      canvas.width = Math.round(bounds.width * dpr);
+      canvas.height = Math.round(bounds.height * dpr);
+      context.setTransform(dpr, 0, 0, dpr, 0, 0);
+      draw();
+    };
+
+    const draw = () => {
+      const center = size / 2;
+      const radius = size * 0.38;
+      const motion = reduceMotion.matches ? 0 : energy;
+      const baseRipple = reduceMotion.matches ? 0 : 2.2;
+      const amplitude = baseRipple + motion * size * 0.055;
+      const points = 180;
+
+      context.clearRect(0, 0, size, size);
+      context.save();
+      context.translate(center, center);
+      context.rotate(reduceMotion.matches ? 0 : phase * 0.12);
+      context.beginPath();
+
+      for (let index = 0; index <= points; index += 1) {
+        const angle = (index / points) * Math.PI * 2;
+        const wave =
+          Math.sin(angle * 23 + phase * 2.1) * 0.48 +
+          Math.sin(angle * 37 - phase * 1.35) * 0.32 +
+          Math.sin(angle * 59 + phase * 0.72) * 0.2;
+        const localRadius = radius + wave * amplitude;
+        const x = Math.cos(angle) * localRadius;
+        const y = Math.sin(angle) * localRadius;
+        if (index === 0) context.moveTo(x, y);
+        else context.lineTo(x, y);
+      }
+
+      context.closePath();
+      context.strokeStyle = '#8cffd1';
+      context.lineWidth = Math.max(1.25, size * 0.0045);
+      context.shadowColor = 'rgba(140, 255, 209, 0.28)';
+      context.shadowBlur = 12 + motion * 16;
+      context.stroke();
+      context.restore();
+    };
+
+    const animate = () => {
+      targetEnergy *= 0.9;
+      energy += (targetEnergy - energy) * 0.16;
+      phase += 0.012 + energy * 0.035;
+      draw();
+      frame = requestAnimationFrame(animate);
+    };
+
+    const onPointerMove = (event: PointerEvent) => {
+      const now = performance.now();
+      if (hasPointer) {
+        const distance = Math.hypot(event.clientX - lastX, event.clientY - lastY);
+        const elapsed = Math.max(8, now - lastTime);
+        const velocity = distance / elapsed;
+        targetEnergy = Math.min(1, Math.max(targetEnergy, velocity / 1.35));
+      }
+      lastX = event.clientX;
+      lastY = event.clientY;
+      lastTime = now;
+      hasPointer = true;
+    };
+
+    const updateMotionPreference = () => {
+      cancelAnimationFrame(frame);
+      energy = 0;
+      targetEnergy = 0;
+      if (reduceMotion.matches) draw();
+      else frame = requestAnimationFrame(animate);
+    };
+
+    new ResizeObserver(resize).observe(canvas);
+    window.addEventListener('pointermove', onPointerMove, { passive: true });
+    reduceMotion.addEventListener('change', updateMotionPreference);
+    updateMotionPreference();
+  }
+</script>

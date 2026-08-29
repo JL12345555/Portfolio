@@ -1,0 +1,37 @@
+---
+import MediaPlaceholder from './MediaPlaceholder.astro';
+
+interface Props {
+  mediaType: string;
+  videoUrl?: string;
+  title: string;
+  tone: string;
+  imageSrc?: string;
+  imageAlt?: string;
+  preview?: boolean;
+}
+
+const { mediaType, videoUrl, title, tone, imageSrc, imageAlt = '', preview = false } = Astro.props;
+
+function youtubeId(value?: string) {
+  if (!value) return undefined;
+  return value.match(/(?:youtu\.be\/|youtube\.com\/(?:watch\?v=|embed\/|shorts\/))([A-Za-z0-9_-]{11})/)?.[1];
+}
+
+const videoId = youtubeId(videoUrl);
+const isLocalVideo = Boolean(videoUrl && !videoId);
+---
+<div class:list={['archive-media', mediaType === 'video' && 'is-video']}>
+  {mediaType === 'video' && videoId && preview && (
+    <><img class="archive-video-poster" src={`https://i.ytimg.com/vi/${videoId}/hqdefault.jpg`} alt={`${title} video thumbnail`} loading="lazy" decoding="async" /><span class="archive-preview-play" aria-hidden="true">▶</span></>
+  )}
+  {mediaType === 'video' && videoId && !preview && (
+    <iframe src={`https://www.youtube-nocookie.com/embed/${videoId}?rel=0`} title={`${title} video`} loading="lazy" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+  )}
+  {mediaType === 'video' && isLocalVideo && !preview && <video src={videoUrl} controls preload="metadata" aria-label={`${title} video`}></video>}
+  {mediaType === 'video' && !videoUrl && (
+    <div class:list={['archive-video-empty', `tone-${tone}`]}><span class="archive-play" aria-hidden="true">▶</span><small>Video coming soon</small></div>
+  )}
+  {mediaType !== 'video' && imageSrc && <img src={imageSrc} alt={imageAlt} loading="lazy" decoding="async" />}
+  {mediaType !== 'video' && !imageSrc && <MediaPlaceholder tone={tone} label={`${title} image placeholder`} />}
+</div>

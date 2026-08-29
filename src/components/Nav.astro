@@ -1,0 +1,29 @@
+---
+const path = Astro.url.pathname;
+const links = [
+  { href: '/', label: 'Work', active: path === '/' || path.startsWith('/work/') },
+  { href: '/resume', label: 'Résumé', active: path === '/resume' },
+  { href: '/about', label: 'About', active: path === '/about' },
+  { href: '/contact', label: 'Contact', active: path === '/contact' },
+];
+---
+<header class="site-header shell">
+  <a class="identity" href="/" aria-label="Jonas, home"><span>J /</span><span>Interactive Media Designer</span></a>
+  <button class="menu-button" aria-expanded="false" aria-controls="primary-nav">Menu</button>
+  <nav id="primary-nav" aria-label="Primary navigation">
+    {links.map((link) => <a href={link.href} aria-current={link.active ? 'page' : undefined}>{link.label}</a>)}
+  </nav>
+</header>
+<script>
+  const button = document.querySelector<HTMLButtonElement>('.menu-button');
+  const nav = document.querySelector<HTMLElement>('#primary-nav');
+  const close = () => { button?.setAttribute('aria-expanded', 'false'); nav?.classList.remove('is-open'); document.body.classList.remove('menu-open'); };
+  button?.addEventListener('click', () => {
+    const open = button.getAttribute('aria-expanded') !== 'true';
+    button.setAttribute('aria-expanded', String(open));
+    nav?.classList.toggle('is-open', open);
+    document.body.classList.toggle('menu-open', open);
+  });
+  nav?.querySelectorAll('a').forEach((link) => link.addEventListener('click', close));
+  window.addEventListener('keydown', (event) => event.key === 'Escape' && close());
+</script>

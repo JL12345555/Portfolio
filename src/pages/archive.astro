@@ -1,0 +1,32 @@
+---
+import Layout from '../layouts/Layout.astro';
+import ArchiveMedia from '../components/ArchiveMedia.astro';
+import { archiveItems } from '../data/projects';
+---
+<Layout title="Archive — Jonas">
+  <header class="page-head shell"><div><p class="eyebrow">Selected supporting work</p><h1>Archive</h1></div><p>VR films, web experiences, and interface design. A compact view of experiments and supporting work.</p></header>
+  <section class="archive-grid shell">
+    {archiveItems.map((item) => item.mediaType === 'video' ? (
+      <article class="archive-item archive-video-item"><ArchiveMedia mediaType={item.mediaType} videoUrl={item.videoUrl} title={item.title} tone={item.tone} imageSrc={item.imageSrc} imageAlt={item.imageAlt} /><span><b>{item.title}</b><small>{item.category} / {item.year}</small></span><p>{item.description}</p></article>
+    ) : (
+      <button class="archive-item" data-title={item.title} data-category={item.category} data-year={item.year} data-role={item.role} data-tools={item.tools} data-description={item.description} data-tone={item.tone} data-image-src={item.imageSrc} data-image-alt={item.imageAlt}><ArchiveMedia mediaType={item.mediaType} title={item.title} tone={item.tone} imageSrc={item.imageSrc} imageAlt={item.imageAlt} /><span><b>{item.title}</b><small>{item.category} / {item.year}</small></span></button>
+    ))}
+  </section>
+  <dialog class="archive-dialog" aria-labelledby="dialog-title"><button class="dialog-close" aria-label="Close archive item">Close ×</button><img class="dialog-image" id="dialog-image" src="" alt="" /><div><p class="eyebrow" id="dialog-meta"></p><h2 id="dialog-title"></h2><p id="dialog-description"></p></div></dialog>
+  <script>
+    const dialog = document.querySelector<HTMLDialogElement>('.archive-dialog');
+    const title = document.querySelector<HTMLElement>('#dialog-title');
+    const meta = document.querySelector<HTMLElement>('#dialog-meta');
+    const description = document.querySelector<HTMLElement>('#dialog-description');
+    const image = document.querySelector<HTMLImageElement>('#dialog-image');
+    let trigger: HTMLElement | null = null;
+    document.querySelectorAll<HTMLElement>('button.archive-item').forEach((item) => item.addEventListener('click', () => {
+      trigger = item; if (title) title.textContent = item.dataset.title ?? ''; if (meta) meta.textContent = [item.dataset.category, item.dataset.year, item.dataset.role, item.dataset.tools].filter(Boolean).join(' / '); if (description) description.textContent = item.dataset.description ?? '';
+      if (image) { image.src = item.dataset.imageSrc ?? ''; image.alt = item.dataset.imageAlt ?? ''; }
+      dialog?.showModal();
+    }));
+    const close = () => { dialog?.close(); trigger?.focus(); };
+    document.querySelector('.dialog-close')?.addEventListener('click', close);
+    dialog?.addEventListener('click', (event) => event.target === dialog && close());
+  </script>
+</Layout>

@@ -1,0 +1,59 @@
+---
+import MediaPlaceholder from './MediaPlaceholder.astro';
+
+interface Props {
+  kind: 'youtube' | 'experience';
+  title: string;
+  description: string;
+  url?: string;
+  externalUrl?: string;
+  tone?: string;
+}
+
+const { kind, title, description, url, externalUrl, tone = 'mint' } = Astro.props;
+
+function youtubeId(value?: string) {
+  if (!value) return undefined;
+  const match = value.match(/(?:youtu\.be\/|youtube\.com\/(?:watch\?v=|embed\/|shorts\/))([A-Za-z0-9_-]{11})/);
+  return match?.[1];
+}
+
+const videoId = kind === 'youtube' ? youtubeId(url) : undefined;
+const source = videoId ? `https://www.youtube-nocookie.com/embed/${videoId}?rel=0` : url;
+const hasEmbed = kind === 'youtube' ? Boolean(videoId) : Boolean(url);
+---
+<section class="project-embed shell" data-reveal>
+  <div class="embed-heading">
+    <p class="eyebrow">{kind === 'youtube' ? 'Watch / Video' : 'Enter / Interactive experience'}</p>
+    <div><h2>{title}</h2><p>{description}</p></div>
+  </div>
+
+  <div class:list={['embed-frame', `embed-${kind}`, `tone-${tone}`]}>
+    {hasEmbed && kind === 'youtube' && (
+      <iframe
+        src={source}
+        title={title}
+        loading="lazy"
+        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+        allowfullscreen
+      ></iframe>
+    )}
+    {hasEmbed && kind === 'experience' && (
+      <iframe
+        src={source}
+        title={title}
+        loading="lazy"
+        sandbox="allow-scripts allow-same-origin allow-pointer-lock allow-forms allow-popups"
+        allow="autoplay; fullscreen; gamepad; xr-spatial-tracking"
+        allowfullscreen
+      ></iframe>
+    )}
+    {!hasEmbed && <MediaPlaceholder tone={tone} label={kind === 'youtube' ? 'YouTube video placeholder' : 'Interactive exhibition placeholder'} />}
+  </div>
+
+  <div class:list={['embed-footer', kind === 'youtube' && 'embed-footer-youtube']}>
+    {kind === 'experience' && <span>Interactive HTML / responsive frame</span>}
+    {hasEmbed && <a href={externalUrl ?? url} target="_blank" rel="noreferrer">{kind === 'youtube' ? 'Watch on YouTube ↗' : 'Open full experience ↗'}</a>}
+    {!hasEmbed && <span>Link ready to be added</span>}
+  </div>
+</section>

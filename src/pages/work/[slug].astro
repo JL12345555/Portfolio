@@ -1,0 +1,39 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import ProjectEmbed from '../../components/ProjectEmbed.astro';
+import { projects } from '../../data/projects';
+
+export function getStaticPaths() {
+  return projects.map((project) => ({ params: { slug: project.slug }, props: { project } }));
+}
+const { project } = Astro.props;
+const index = projects.findIndex((item) => item.slug === project.slug);
+const previous = projects[(index - 1 + projects.length) % projects.length];
+const next = projects[(index + 1) % projects.length];
+const [galleryLead, galleryPairA, galleryPairB, galleryFinal] = project.galleryImages;
+---
+<Layout title={`${project.title} — Jonas`} description={project.description}>
+  <article class="case-study">
+    <header class="case-hero shell">
+      <p class="eyebrow">0{index + 1} / Featured work</p>
+      <h1>{project.title}</h1>
+      <p class="case-deck">{project.introduction}</p>
+    </header>
+    <img class="case-main-image" src={project.heroImage.src} alt={project.heroImage.alt} loading="eager" decoding="async" />
+    <section class="case-intro shell" data-reveal>
+      <dl><div><dt>Year</dt><dd>{project.year}</dd></div><div><dt>Type</dt><dd>{project.kicker}</dd></div><div><dt>Role</dt><dd>{project.role}</dd></div><div><dt>Tools</dt><dd>{project.tools}</dd></div>{project.collaborators && <div><dt>Collaborators</dt><dd>{project.collaborators}</dd></div>}{project.platform && <div><dt>Platform</dt><dd>{project.platform}</dd></div>}</dl>
+      <div><p class="eyebrow">Overview</p><p class="overview-copy">{project.overview}</p></div>
+    </section>
+    <ProjectEmbed {...project.embed} tone={project.tone} />
+    <section class="case-gallery shell" aria-label="Project gallery">
+      <figure><img class:list={['case-gallery-image', galleryLead.fit === 'contain' && 'is-contained']} src={galleryLead.src} alt={galleryLead.alt} loading="lazy" decoding="async" /></figure>
+      <div class="gallery-pair">
+        <figure><img class:list={['case-gallery-image', galleryPairA.fit === 'contain' && 'is-contained']} src={galleryPairA.src} alt={galleryPairA.alt} loading="lazy" decoding="async" /></figure>
+        <figure><img class:list={['case-gallery-image', galleryPairB.fit === 'contain' && 'is-contained']} src={galleryPairB.src} alt={galleryPairB.alt} loading="lazy" decoding="async" /></figure>
+      </div>
+      <figure><img class:list={['case-gallery-image', galleryFinal.fit === 'contain' && 'is-contained']} src={galleryFinal.src} alt={galleryFinal.alt} loading="lazy" decoding="async" /></figure>
+    </section>
+    <section class="case-reflection shell" data-reveal><p class="eyebrow">Reflection</p><p>{project.reflection}</p></section>
+    <nav class="project-pagination shell" aria-label="Project pagination"><a href={`/work/${previous.slug}`}><span>← Previous</span><b>{previous.title}</b></a><a href={`/work/${next.slug}`}><span>Next →</span><b>{next.title}</b></a></nav>
+  </article>
+</Layout>
